@@ -11,6 +11,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/thanos-io/thanos/pkg/objstore/huawei"
+
 	"github.com/fatih/structtag"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
@@ -52,6 +54,7 @@ var (
 		client.COS:        cos.Config{},
 		client.ALIYUNOSS:  oss.Config{},
 		client.FILESYSTEM: filesystem.Config{},
+		client.HUAWEIOBS:  huawei.Config{},
 	}
 
 	tracingConfigs = map[trclient.TracingProvider]interface{}{

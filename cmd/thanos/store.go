@@ -167,7 +167,7 @@ func (sc *storeConfig) registerFlag(cmd extkingpin.FlagClause) {
 
 // registerStore registers a store command.
 func registerStore(app *extkingpin.App) {
-	cmd := app.Command(component.Store.String(), "Store node giving access to blocks in a bucket provider. Now supported GCS, S3, Azure, Swift, Tencent COS and Aliyun OSS.")
+	cmd := app.Command(component.Store.String(), "Store node giving access to blocks in a bucket provider. Now supported GCS, S3, Azure, Swift, Tencent COS, Aliyun OSS And Huawei OBS.")
 
 	conf := &storeConfig{}
 	conf.registerFlag(cmd)

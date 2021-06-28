@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/thanos-io/thanos/pkg/objstore/huawei"
+
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
@@ -33,6 +35,7 @@ const (
 	SWIFT      ObjProvider = "SWIFT"
 	COS        ObjProvider = "COS"
 	ALIYUNOSS  ObjProvider = "ALIYUNOSS"
+	HUAWEIOBS  ObjProvider = "HUAWEIOBS"
 )
 
 type BucketConfig struct {
@@ -70,6 +73,8 @@ func NewBucket(logger log.Logger, confContentYaml []byte, reg prometheus.Registe
 		bucket, err = oss.NewBucket(logger, config, component)
 	case string(FILESYSTEM):
 		bucket, err = filesystem.NewBucketFromConfig(config)
+	case string(HUAWEIOBS):
+		bucket, err = huawei.NewBucket(logger, config, component)
 	default:
 		return nil, errors.Errorf("bucket with type %s is not supported", bucketConf.Type)
 	}

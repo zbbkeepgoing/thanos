@@ -11,6 +11,7 @@ import (
 
 	"github.com/thanos-io/thanos/pkg/objstore/client"
 	"github.com/thanos-io/thanos/pkg/objstore/filesystem"
+	"github.com/thanos-io/thanos/pkg/objstore/huawei"
 
 	"github.com/thanos-io/thanos/pkg/objstore"
 	"github.com/thanos-io/thanos/pkg/objstore/azure"
@@ -140,6 +141,19 @@ func ForeachStore(t *testing.T, testFn func(t *testing.T, bkt objstore.Bucket)) 
 	if !IsObjStoreSkipped(t, client.ALIYUNOSS) {
 		t.Run("AliYun oss", func(t *testing.T) {
 			bkt, closeFn, err := oss.NewTestBucket(t)
+			testutil.Ok(t, err)
+
+			t.Parallel()
+			defer closeFn()
+
+			testFn(t, bkt)
+		})
+	}
+
+	// Optional OBS
+	if !IsObjStoreSkipped(t, client.HUAWEIOBS) {
+		t.Run("Huawei obs", func(t *testing.T) {
+			bkt, closeFn, err := huawei.NewTestBucket(t)
 			testutil.Ok(t, err)
 
 			t.Parallel()
